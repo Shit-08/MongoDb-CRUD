@@ -14,3 +14,7 @@ body{
     padding: 3px 15px;
     border-radius: 1rem;
 }
+
+.edit{
+    border-radius: 10px;
+}

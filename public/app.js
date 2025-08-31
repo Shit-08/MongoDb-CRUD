@@ -1,7 +1,9 @@
 let deleteForm = document.querySelectorAll('.deleteForm');
-deleteForm.addEventListener('submit', function(e){
-    let confirmDel = alert("Are you sure you want to delete this chat?");
-    if(!confirmDel){
-        e.preventDefault();
-    }
+deleteForm.forEach((form)=>{
+    form.addEventListener('submit', (e)=>{
+        let confirmDel= confirm("Are you sure you want to delete this chat?");
+        if(!confirmDel){
+            e.preventDefault(); // Stop the form from submitting
+        }
+    })
 });

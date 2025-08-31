@@ -3,11 +3,13 @@ const app=express();
 const mongoose=require("mongoose");
 const path=require('path');
 const Chat1= require('./models/chat')
+const methodOverride= require('method-override');
 
 app.set("views",path.join(__dirname,"views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({extended: true}));
+app.use(methodOverride("_method"));
 
 main()
 .then(()=>{
@@ -67,6 +69,24 @@ app.get('/chats/:id/edit',async(req,res)=>{
     let chat= await Chat1.findById(id);
     res.render("edit.ejs", {chat} );
 });
+
+//Update Route
+app.put('/chats/:id', async(req,res)=>{
+    let {id}= req.params;
+    let {msg : newMsg}= req.body;
+    let updatedChat= await Chat1.findByIdAndUpdate(id, {msg: newMsg}, {runValidators: true , new: true});
+    console.log(updatedChat);
+    res.redirect('/chats');
+
+})
+
+//Destroy Route
+app.delete('/chats/:id', async(req,res)=>{
+    let {id}= req.params;
+    let deletedChat= await Chat1.findByIdAndDelete(id);
+    console.log(deletedChat);
+    res.redirect('/chats');
+})
 
 app.listen(8080, ()=>{
     console.log("server is listening on port 8008");
